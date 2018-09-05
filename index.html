@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+    <title>商家列表</title>
+    <script>
+        if (!window.Promise) {
+            document.writeln('<script type="text/javascript" src="https://cdn.bootcss.com/es6-promise/4.1.1/es6-promise.min.js"' + '>' + '<' + '/' + 'script>');
+        }
+        if (!window.fetch) {
+            document.writeln('<script type="text/javascript" src="https://cdn.bootcss.com/fetch/2.0.3/fetch.min.js"' + '>' + '<' + '/' + 'script>');
+        }
+    </script>
+    <!-- <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script> -->
+    
+    <!-- Vue -->
+    <script type="text/javascript" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/javascript/vue.js"></script>
+    <script type="text/javascript" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/javascript/vue-router.min.js"></script>
+    
+    <!-- mint-ui -->
+    <link href="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/css/mint-ui.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/javascript/mint-ui.js"></script>
+
+    <!-- XMLHttpRequest -->
+    <script type="text/javascript" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/javascript/jquery-ajax-builder.min.js"></script>
+    
+    <!-- 车牌选择 -->
+    <link href="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/carkeyboard/carkeyboard.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/carkeyboard/carkeyboard.js"></script>
+    
+    <link href="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/css/base.css" rel="stylesheet" />
+    <link href="./index.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="app">
+	<keep-alive>
+		<router-view v-if="isInHome">
+			<!-- 缓存的组件, 只有在home的时候才显示缓存持久化, 在其他页面的时候隐藏 -->
+		</router-view>
+	</keep-alive>
+
+	<router-view v-if="isInHome === false">
+		<!-- 普通组件, 不在home的时候 detail是隐藏的 -->
+	</router-view>
+</div>
+
+<!-- 注册 -->
+<script type="text/template" id="shopslist">
+<div class="shopslist">
+</div>
+</script>
+
+<script type="text/javascript" src="./index.js"></script>
+
+</body>
+
+</html>
