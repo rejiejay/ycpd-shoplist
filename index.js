@@ -126,6 +126,33 @@ var VmMain = {
 
 	data: function data() {
 		return {
+			clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备宽度
+
+			// 输入
+			searchInput: '',
+
+			// 产品列表
+			products: [
+				{
+					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(1).jpg',
+					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					address: '五和地铁站旁',
+					distance: '1.55km',
+				}, {
+					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(2).jpg',
+					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					address: '五和地铁站旁',
+					distance: '1.55km',
+				}, {
+					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(3).jpg',
+					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					address: '五和地铁站旁',
+					distance: '1.55km',
+				}
+			],     
+	
+			// 是否加载成功
+			isLoadingCompleted: false, 
 		};
 	},
 
