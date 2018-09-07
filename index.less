@@ -11,21 +11,28 @@
     min-height: 100%;
     background-color: #f5f5f5;
 }
+/**
+ * 商家列表
+ */
+@z-index-shopslist-searchBar: 3; // 搜索栏
+@z-index-shopslist-filter: 3; // 排序 and 筛选栏
 
-@z-index-sidebar: 4; // 侧边栏
-@z-index-fixation: 3; // 顶部固定栏
-@z-index-sorttab: 3; // 顶部固定栏
-@z-index-storeType-shade: 2; // 门店类型 遮罩
-@z-index-service: 5; // 服务项目 遮罩
-@z-index-service-shade: 4; // 服务项目 遮罩
+@z-index-shopslist-shop-type-shade: 1; // 筛选 门店类型 下拉
+@z-index-shopslist-shop-type-content: 2; // 筛选 门店类型 下拉
 
+// 商家列表
 .shopslist {
 
     // 搜索栏
     .searchBar {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
         height: 55px;
         background: #fff;
         border-bottom: 1px solid #ddd;
+        z-index: @z-index-shopslist-searchBar;
     
         .searchBar-input {
             padding-left: 15px;
@@ -71,13 +78,110 @@
         }
     }
 
+    // 排序 and 筛选栏
+    .filter {
+        position: fixed;
+        left: 0px;
+        top: 56px;
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        z-index: @z-index-shopslist-filter;
     
+        .filter-item {
+            position: relative;
+            font-size: 14px;
+            color: @black2;
+            width: 33.33%;
     
+            // 筛选的SVG
+            .filter-icon {
+                position: relative;
+                top: 2.5px;
+            }
+        }
+    
+        // 激活的模块
+        .filter-activate-item {
+            color: #E50012;
+    
+            path {
+                fill: #E50012;
+            }
+        }
+    
+        // 分割线
+        .filter-item-line {
+            position: absolute;
+            right: 0px;
+            width: 1px;
+            height: 40px;
+    
+            span {
+                display: block;
+                height: 18px;
+                width: 1px;
+                background: #dddddd;
+            }
+        }
+    }
+
+    // 筛选 门店类型 下拉
+    .shop-type {
+        position: fixed;
+        left: 0px;
+        top: -160px;
+        width: 100%;
+        height: 245px;
+        background: #fff;
+        overflow-y: auto;
+        z-index: @z-index-shopslist-shop-type-content;
+        
+        transition: top 0.2s;
+        -moz-transition: top 0.2s;	/* Firefox 4 */
+        -webkit-transition: top 0.2s;	/* Safari 和 Chrome */
+        -o-transition: top 0.2s;	/* Opera */
+
+        .shop-type-content {
+            padding-left: 15px;
+        }
+        
+        .type-item {
+            font-size: 14px;
+            line-height: 40px;
+            color: @black2;
+        }
+        
+        .type-item-line {
+            border-bottom: 1px solid #ddd;
+        }
+
+        // 选中状态
+        .type-item-selected {
+            color: #E50012;
+        }
+    }
+    .shop-type-show { // 显示
+        top: 96px;
+    }
+    .shop-type-shade { // 遮罩层
+        position: fixed;
+        left: 0px;
+        top: 96px;
+        width: 100%;
+        line-height: 40px;
+        background: rgba(0, 0, 0, 0.36);
+        z-index: @z-index-shopslist-shop-type-shade;
+    }
+
     // 产品列表
     .products {
-        background: #fff;
+        padding-top: 101px;
     
         .products-item {
+            background: #fff;
     
             .products-item-content {
                 padding: 15px;

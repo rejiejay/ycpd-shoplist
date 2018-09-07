@@ -77,6 +77,77 @@
         </div>
     </div>
 
+    <!-- 排序 and 筛选栏 -->
+    <div class="filter flex-start">
+        <div class="filter-item flex-center"
+            v-bind:class="{'filter-activate-item' : (sortSelect === 'distance')}"
+            @click="filterHandle('distance')"
+        >
+            <div class="filter-item-content">
+                <span>距离优先</span>
+            </div>
+
+            <div class="filter-item-line flex-center"><span></span></div>
+        </div>
+        
+        <div class="filter-item flex-center"
+            v-bind:class="{'filter-activate-item' : (sortSelect === 'good')}"
+            @click="filterHandle('good')"
+        >
+            <div class="filter-item-content">
+                <span>好评优先</span>
+            </div>
+
+            <div class="filter-item-line flex-center"><span></span></div>
+        </div>
+        
+        <div class="filter-item flex-center"
+            v-bind:class="{'filter-activate-item' : (shopTypeSelect !== '')}"
+            @click="shopTypeMenuVisible = !shopTypeMenuVisible"
+        >
+            <div class="filter-item-content">
+                <span>门店类型</span>
+                <svg width="10" height="10" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path fill="#606266" d="M6.84542978,14.5264945 L0.288775776,7.69230265 C-0.0935724214,7.29376997 -0.0804523013,6.66074094 0.318080384,6.27839274 C0.50428598,6.09974899 0.752340184,6 1.01038304,6 L14.9896198,6 C15.5419045,6 15.9896198,6.44771525 15.9896198,7 C15.9896198,7.25804285 15.8898708,7.50609706 15.711227,7.69230265 L9.15457301,14.5264945 C8.5428159,15.1641468 7.52996945,15.185139 6.89231715,14.5733819 C6.87636581,14.5580783 6.86073333,14.5424458 6.84542978,14.5264945 Z"></path>
+                </svg>
+            </div>
+
+            <div class="filter-item-line flex-center"><span></span></div>
+        </div>
+        
+        <div class="filter-item flex-center"  
+            v-bind:class="{'filter-activate-item' : (filterSelectList.length !== 0)}"
+        >
+            <div class="filter-item-content">
+                <span>筛选</span>
+                <svg width="14" height="14" t="1536202186757" class="filter-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3758" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M272.2 63.6c-114.9 0-208 93.1-208 208s93.1 208 208 208h208v-208c0-114.9-93.1-208-208-208z m144 352h-144c-79.4 0-144-64.6-144-144s64.6-144 144-144 144 64.6 144 144v144z m544-144c0-114.9-93.1-208-208-208s-208 93.1-208 208v208h208c114.9 0 208-93.2 208-208z m-352 0c0-79.4 64.6-144 144-144s144 64.6 144 144-64.6 144-144 144h-144v-144z m-544 480c0 114.9 93.1 208 208 208s208-93.1 208-208v-208h-208c-114.9 0-208 93.1-208 208z m352 0c0 79.4-64.6 144-144 144s-144-64.6-144-144 64.6-144 144-144h144v144z m336-208h-208v208c0 114.9 93.1 208 208 208s208-93.1 208-208-93.1-208-208-208z m0 352c-79.4 0-144-64.6-144-144v-144h144c79.4 0 144 64.6 144 144s-64.6 144-144 144z" p-id="3759"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 门店类型 下拉 -->
+    <div class="shop-type-shade" @click="shopTypeMenuVisible = false" v-bind:style="{ height: (clientHeight - 96) + 'px' }" v-if="shopTypeMenuVisible"></div>
+    <div class="shop-type" 
+        v-bind:class="{'shop-type-show' : shopTypeMenuVisible}"
+    >
+        <div class="shop-type-content"> 
+            <div class="type-item type-item-line" @click="shopTypeHandle('')" v-bind:class="{'type-item-selected' : (shopTypeSelect === '')}">
+                <div>所有门店</div>
+            </div>
+            <div
+                class="type-item"
+                v-for="(item, key) in shopTypeList"
+                :key="key"
+                v-bind:class="{'type-item-selected' : (item === shopTypeSelect),'type-item-line' : (key !== (shopTypeList.length - 1))}"    
+                @click="shopTypeHandle(item)"
+            >
+                <div>{{item}}</div>
+            </div>
+        </div>
+    </div>
+
     <!-- 产品列表 -->
     <div class="products">
         <div class="products-item"

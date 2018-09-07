@@ -127,11 +127,35 @@ var VmMain = {
 	data: function data() {
 		return {
 			clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备宽度
+			clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-			// 输入
+            /**
+             * 搜索框输入
+             */
 			searchInput: '',
 
-			// 产品列表
+            /**
+             * 排序
+             * @param {String} distance 距离优先 默认
+             * @param {String} good 好评优先
+             */
+			sortSelect: 'distance', 
+
+            /**
+             * 门店类型
+             */
+			shopTypeSelect: '', // 如果为空, 则表示筛选全部
+			shopTypeMenuVisible: false, // 是否显示模态框
+			shopTypeList: [ '汽车保养', '汽车维修', '汽车美容', '汽车维修', '汽车美容' ],
+
+            /**
+             * 筛选
+             */
+			filterSelectList: [],
+
+            /**
+             * 产品列表
+             */
 			products: [
 				{
 					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(1).jpg',
@@ -159,6 +183,38 @@ var VmMain = {
 	mounted: function mounted() { },
 
 	methods: {
+        
+        /**
+         * 点击 排序 and 筛选栏
+         * @param {String} condition 排序的条件
+         */
+        filterHandle: function filterHandle(condition) {
+            // const _this = this;
+			
+			// 距离优先
+            if (condition === 'distance') {
+                this.filterSelect = 'distance';
+            }
+
+            // 好评优先
+            if (condition === 'good') {
+                this.filterSelect = 'good';
+            }
+
+            // 好评优先
+            if (condition === 'shopType') {
+                this.filterSelect = 'shopType';
+            }
+        },
+        
+        /**
+         * 门店下拉选择
+         * @param {String} condition 排序的条件
+         */
+		shopTypeHandle: function shopTypeHandle(shopType) {
+			this.shopTypeSelect = shopType; // 设置选中
+			this.shopTypeMenuVisible = false; // 隐藏下拉模态框
+		},
 	},
 };
 
