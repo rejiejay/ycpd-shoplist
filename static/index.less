@@ -20,6 +20,9 @@
 @z-index-shopslist-shop-type-shade: 1; // 筛选 门店类型 下拉
 @z-index-shopslist-shop-type-content: 2; // 筛选 门店类型 下拉
 
+@sidebar-shade-z-index: 4; // 筛选 侧边栏 遮罩层 
+@sidebar-main-z-index: 5; // 筛选 侧边栏 主要部分 
+
 // 商家列表
 .shopslist {
 
@@ -138,7 +141,7 @@
         background: #fff;
         overflow-y: auto;
         z-index: @z-index-shopslist-shop-type-content;
-        
+
         transition: top 0.2s;
         -moz-transition: top 0.2s;	/* Firefox 4 */
         -webkit-transition: top 0.2s;	/* Safari 和 Chrome */
@@ -174,6 +177,112 @@
         line-height: 40px;
         background: rgba(0, 0, 0, 0.36);
         z-index: @z-index-shopslist-shop-type-shade;
+    }
+
+    // 侧边栏 筛选 
+    .sidebar {
+        position: fixed;
+        top: 0px;
+        right: -80%;
+        height: 100%;
+        width: 80%;
+        transition: right 0.2s;
+        -moz-transition: right 0.2s;	/* Firefox 4 */
+        -webkit-transition: right 0.2s;	/* Safari 和 Chrome */
+        -o-transition: right 0.2s;	/* Opera */
+        background: #fff;
+        z-index: @sidebar-main-z-index;
+
+        .sidebar-content {
+            height: 100%;
+            overflow-y: scroll;
+            position: relative;
+        }
+
+        // 主要内容区域
+        .sidebar-content-main {
+            padding: 15px 15px 65px 15px;
+
+            // 一个块部分
+            .sidebar-main-block {
+                // 标题 
+                .sidebar-block-title {
+                    font-size: 14px;
+                    color: @black3;
+                    padding-bottom: 10px;
+                }
+    
+                // 列表
+                .sidebar-block-list {
+                    overflow: hidden;
+    
+                    > div {
+                        float: left;
+                    }
+                }
+    
+                // 项目 
+                .sidebar-block-item {
+                    padding: 0px 5px;
+                    margin-bottom: 15px;
+                    margin-right: 15px;
+                    height: 35px;
+                    min-width: 100px;
+                    line-height: 35px;
+                    text-align: center;
+                    border: 1px solid #ddd;
+                    border-radius: 2.5px;
+                }
+    
+                // 选中的项目
+                .sidebar-item-selected {
+                    color: #a9c9ff;
+                    border: 1px solid #a9c9ff;
+                    background: #eef5ff;
+                }
+            }
+        }
+
+        // 底部
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 0px;
+            height: 45px;
+            width: 100%;
+    
+            > div {
+                font-size: 14px;
+                width: 50%;
+                line-height: 45px;
+                text-align: center;
+            }
+    
+            .sidebar-bottom-left {
+                border-top: 1px solid #ddd;
+                background: #fff;
+            }
+    
+            .sidebar-bottom-right {
+                color: #fff;
+                background: #5594ff;
+            }
+        }
+    }
+
+    // 侧边栏 筛选 显示
+    .sidebar-show {
+        right: 0px;
+    }
+
+    // 侧边栏 筛选 遮罩
+    .sidebar-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @sidebar-shade-z-index;
     }
 
     // 产品列表
