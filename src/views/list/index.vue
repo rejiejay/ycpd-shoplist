@@ -136,7 +136,7 @@
 
         <!-- 底部按钮 -->
         <div class="sidebar-bottom flex-start">
-            <div class="sidebar-bottom-left" @click="sidebarReset">重置</div>
+            <div class="sidebar-bottom-left" @click="sidebarReset">清除筛选条件</div>
             <div class="sidebar-bottom-right" @click="sidebarAffirm">确定</div>
         </div>
     </div>
@@ -616,13 +616,13 @@ export default {
 
     // 主要内容区域
     .sidebar-content-main {
-        padding: 15px 15px 65px 15px;
+        padding: 15px 0px 65px 15px;
 
         // 一个块部分
         .sidebar-main-block {
             // 标题 
             .sidebar-block-title {
-                font-size: 14px;
+                font-size: 12px;
                 color: @black3;
                 padding-bottom: 10px;
             }
@@ -638,22 +638,24 @@ export default {
 
             // 项目 
             .sidebar-block-item {
-                padding: 0px 5px;
-                margin-bottom: 15px;
-                margin-right: 15px;
-                height: 35px;
-                min-width: 100px;
-                line-height: 35px;
+                padding: 0px 10px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+                height: 30px;
+                min-width: 60px;
+                font-size: 14px;
+                line-height: 30px;
                 text-align: center;
+                color: @black3;
                 border: 1px solid #ddd;
                 border-radius: 2.5px;
             }
 
             // 选中的项目
             .sidebar-item-selected {
-                color: #a9c9ff;
-                border: 1px solid #a9c9ff;
-                background: #eef5ff;
+                color: #e83043;
+                border: 1px solid #e83043;
+                background: #ffeff0;
             }
         }
     }
@@ -673,13 +675,14 @@ export default {
         }
 
         .sidebar-bottom-left {
+            color: @black3;
             border-top: 1px solid #ddd;
             background: #fff;
         }
 
         .sidebar-bottom-right {
             color: #fff;
-            background: #5594ff;
+            background: #e50012;
         }
     }
 }
