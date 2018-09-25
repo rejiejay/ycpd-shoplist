@@ -15,11 +15,16 @@ const routes = [
         name: 'list-detail',
         component: () => import('@/views/list/detail'),
         meta: { title: '门店详情' },
-    }, {
+    },
+    
+    /**
+     * 评论详情
+     */
+    {
         path: '/list/comment',
         name: 'list-comment',
         component: () => import('@/views/list/comment'),
-        meta: { title: '门店详情' },
+        meta: { title: '评论详情' },
     }, 
     
     /**

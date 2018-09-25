@@ -8,7 +8,7 @@
 
         <div class="detail-describe-title flex-start-center">
             <div class="describe-title-describe flex-rest">
-                <div class="title-describe-main">中国和谐控股豪华汽车维修中心</div>
+                <div class="title-describe-main">{{storeName}}</div>
                 
                 <!-- 评分 -->
                 <div class="title-describe-lable flex-start-center">
@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <div class="detail-comment-more">
+        <div class="detail-comment-more" @click="jumpToComment">
             查看全部评价 >
         </div>
     </div>
@@ -184,6 +184,8 @@ export default {
     data () {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
+
+            storeName: '中国和谐控股豪华汽车维修中心', // 门店名称
             
 			score: 3,        // 门店详情 评分
 			commentPoint: 4,        // 综合 评分
@@ -214,7 +216,14 @@ export default {
     mounted: function () {
     },
 
-    methods: { },
+    methods: {
+        /**
+         * 跳转到评论详情页面
+         */
+        jumpToComment: function jumpToComment() {
+			this.$router.push({path: '/list/comment', query: {storeName: this.storeName}});
+        }
+    },
 }
 
 </script>
