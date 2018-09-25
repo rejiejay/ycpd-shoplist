@@ -11,15 +11,25 @@ const routes = [
         component: () => import('@/views/list/index'),
         meta: { title: '商家列表' },
     }, {
-        path: '/list/map/',
-        name: 'list-map',
-        component: () => import('@/views/list/map'),
-        meta: { title: '商家列表' },
-    }, {
         path: '/list/detail/:id',
         name: 'list-detail',
         component: () => import('@/views/list/detail'),
         meta: { title: '门店详情' },
+    }, {
+        path: '/list/comment',
+        name: 'list-comment',
+        component: () => import('@/views/list/comment'),
+        meta: { title: '门店详情' },
+    }, 
+    
+    /**
+     * 地图列表
+     */
+    {
+        path: '/list/map/',
+        name: 'list-map',
+        component: () => import('@/views/map/list'),
+        meta: { title: '商家列表' },
     },
 ];
 

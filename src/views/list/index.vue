@@ -79,7 +79,7 @@
             @click="isSidebarShow = true"
         >
             <div class="filter-item-content">
-                <span>筛选</span>
+                <span>服务项目</span>
                 <svg width="14" height="14" t="1536202186757" class="filter-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3758" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path d="M272.2 63.6c-114.9 0-208 93.1-208 208s93.1 208 208 208h208v-208c0-114.9-93.1-208-208-208z m144 352h-144c-79.4 0-144-64.6-144-144s64.6-144 144-144 144 64.6 144 144v144z m544-144c0-114.9-93.1-208-208-208s-208 93.1-208 208v208h208c114.9 0 208-93.2 208-208z m-352 0c0-79.4 64.6-144 144-144s144 64.6 144 144-64.6 144-144 144h-144v-144z m-544 480c0 114.9 93.1 208 208 208s208-93.1 208-208v-208h-208c-114.9 0-208 93.1-208 208z m352 0c0 79.4-64.6 144-144 144s-144-64.6-144-144 64.6-144 144-144h144v144z m336-208h-208v208c0 114.9 93.1 208 208 208s208-93.1 208-208-93.1-208-208-208z m0 352c-79.4 0-144-64.6-144-144v-144h144c79.4 0 144 64.6 144 144s-64.6 144-144 144z" p-id="3759"></path>
                 </svg>
@@ -143,6 +143,7 @@
 
     <!-- 产品列表 -->
     <div class="products">
+
         <div class="products-item"
             v-for="(item, itemKey) in products"
             :key="itemKey"
@@ -152,7 +153,22 @@
                     <img :src="item.picUrl" alt="item" />
                 </div>
                 <div class="products-item-main flex-rest">
+
                     <div class="item-main-title">{{item.title}}</div>
+                    
+                    <!-- 星星评分 -->
+                    <div class="main-describe-score flex-start-center">
+                        <div class="describe-score-ratingStar flex-start">
+                            <svg v-for="(empty, key) in new Array(item.score)" :key="key" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path fill="#e7380c" d="M785.352203 933.397493c-4.074805 0-8.151657-0.970094-11.833513-3.007497l-261.311471-142.488225L250.942821 930.388972c-8.343015 4.559852-18.527982 3.8814-26.28669-1.599428-7.760754-5.5279-11.640108-14.987343-10.088776-24.347524l47.578622-285.365306L72.563154 429.470355c-6.594185-6.547113-8.971325-16.295128-6.110161-25.122167 2.814092-8.850575 10.379395-15.397688 19.546172-16.949021l285.512662-47.577598 118.529557-236.989529c4.172019-8.391111 12.803607-13.701047 22.165836-13.701047 9.359158 0 17.992793 5.309936 22.163789 13.701047l118.529557 236.989529 285.511639 47.577598c9.217942 1.551332 16.73208 8.051373 19.593244 16.949021 2.813069 8.875135 0.48607 18.575054-6.109138 25.122167L762.264369 619.077737l47.577598 285.365306c1.50119 9.360182-2.37714 18.819624-10.087753 24.347524C795.487028 931.797042 790.394033 933.397493 785.352203 933.397493z"></path>
+                            </svg>
+                            <svg v-for="(empty, reskey) in new Array(5 - item.score)" :key="reskey + 5" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path fill="#dddddd" d="M785.352203 933.397493c-4.074805 0-8.151657-0.970094-11.833513-3.007497l-261.311471-142.488225L250.942821 930.388972c-8.343015 4.559852-18.527982 3.8814-26.28669-1.599428-7.760754-5.5279-11.640108-14.987343-10.088776-24.347524l47.578622-285.365306L72.563154 429.470355c-6.594185-6.547113-8.971325-16.295128-6.110161-25.122167 2.814092-8.850575 10.379395-15.397688 19.546172-16.949021l285.512662-47.577598 118.529557-236.989529c4.172019-8.391111 12.803607-13.701047 22.165836-13.701047 9.359158 0 17.992793 5.309936 22.163789 13.701047l118.529557 236.989529 285.511639 47.577598c9.217942 1.551332 16.73208 8.051373 19.593244 16.949021 2.813069 8.875135 0.48607 18.575054-6.109138 25.122167L762.264369 619.077737l47.577598 285.365306c1.50119 9.360182-2.37714 18.819624-10.087753 24.347524C795.487028 931.797042 790.394033 933.397493 785.352203 933.397493z"></path>
+                            </svg>
+                        </div>
+                        <span>{{item.score}}.0</span>
+                    </div>
+                    
                     <div class="item-main-bottom flex-start-center">
                         <div class="main-bottom-address flex-rest">
                             <svg t="1531473080947" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2026" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16">
@@ -166,11 +182,34 @@
                 </div>
             </div>
 
-            <div class="products-item-line"
-                v-if="itemKey !== (products.length - 1)"
-            >
-                <div class="item-line-content"></div>
-            </div>
+			<!-- 中间门服务 -->
+            <!-- <div class="content-item-label">
+                <div class="item-label-integral flex-start-center">
+
+                    <div class="label-integral-picture"><img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(2).jpg" /></div>
+                    
+                    <div class="label-integral-describe flex-rest">
+                        <div class="integral-describe-title">普通洗车普通洗车普通洗车普通洗车普通洗车普通洗车</div>
+                        <div class="integral-describe-other flex-start">
+                            <div class="describe-other-main  flex-start-center">
+                                <svg t="1531475694807" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2162" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                    width="16" height="16">
+                                    <path d="M1003.23456 324.032c-22.72-26.048-164.032-192.768-217.92-250.944-16.64-17.984-28.928-30.4-54.464-31.36-25.408-1.024-435.776 0-435.776 0-14.08 0-32.064 3.2-55.296 30.4-54.08 63.36-176 203.008-217.152 251.968-27.904 32.256-31.36 78.144 0 125.44 66.88 77.824 250.944 289.024 435.904 501.824 26.176 30.336 42.752 31.424 54.464 31.424 11.456 0 27.712-0.576 54.528-31.424 183.104-210.816 358.848-412.288 435.712-501.824 25.92-31.424 30.784-88.32 0-125.504z m-54.528 94.08c-61.376 71.552-245.888 276.608-392 445.504-21.376 24.704-34.304 25.024-43.456 25.024-9.28 0-22.464-0.896-43.456-25.024-147.584-170.432-339.328-383.168-392.64-445.504-14.848-15.232-14.528-40.832 0-62.72 32.768-39.168 147.328-169.088 190.592-219.52 32.128-37.504 60.288-31.424 71.552-31.424h347.776c41.728 0 51.648 9.216 70.912 31.424 41.728 47.936 172.608 198.656 190.656 219.52 16.192 22.912 11.328 44.608 0.064 62.72z m-435.648 346.368c-47.68-64-216.704-269.312-259.84-328l-3.328-4.16c-7.424-9.92-14.08-14.592-32.192-14.592h-2.304v-44.224h95.744c2.816 0 3.456 0 5.376 3.136l196.032 252.096 196.352-251.456c2.496-3.84 3.392-3.84 6.016-3.84h95.296v44.288h-2.176c-17.92 0-24.704 4.672-32.128 14.656-0.768 0.96-1.536 2.112-2.688 3.392-43.584 59.2-212.544 264.704-260.16 328.704z m0 0" 
+                                        fill="#e7380c" p-id="2163">
+                                    </path>
+                                </svg>
+                                <span>6666积分</span>
+                            </div>
+                            <div class="describe-other-lable">
+                                已售 2222
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label-integral-submit">兑换</div>
+                </div>
+            </div> -->
+
+            <div class="content-item-operation" @click="jumpToDetail">查看本店全部商品 ></div>
         </div>
     </div>
 
@@ -313,19 +352,22 @@ export default {
 			products: [
 				{
 					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(1).jpg',
-					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					title: '深圳市福特坂田4S店',
 					address: '五和地铁站旁',
 					distance: '1.55km',
+					score: 2, // 门店评分
 				}, {
 					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(2).jpg',
-					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					title: '深圳市福特坂田4S店',
 					address: '五和地铁站旁',
 					distance: '1.55km',
+					score: 2, // 门店评分
 				}, {
 					picUrl: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/component/captcha-slider/picture/canvas%20(3).jpg',
-					title: '中国和谐控股豪华汽车维修中心（清 龙路店）',
+					title: '深圳市福特坂田4S店',
 					address: '五和地铁站旁',
 					distance: '1.55km',
+					score: 2, // 门店评分
 				}
 			],     
 	
@@ -415,6 +457,13 @@ export default {
         sidebarAffirm: function() {
             this.isSidebarShow = false; // 隐藏侧边栏
         },
+
+        /**
+         * 跳转到商品详情
+         */
+		jumpToDetail: function jumpToDetail() {
+			this.$router.push('/list/detail/id');
+		},
 	},
 }
 
@@ -707,15 +756,17 @@ export default {
 .products {
     padding-top: 101px;
 
+    // 框架部分
     .products-item {
-        background: #fff;
+        padding-bottom: 5px;
 
         .products-item-content {
+            background: #fff;
             padding: 15px;
-            
         }
     }
 
+    // 门店主要部分下的图片
     .products-item-img {
         width: 90px;
         height: 70px;
@@ -727,13 +778,29 @@ export default {
         }
     }
 
+    // 门店主要部分
     .products-item-main {
         padding-left: 15px;
 
         .item-main-title {
             color: @black1;
-            padding-bottom: 15px;
             font-size: 16px;
+        }
+
+        // 星星
+        .main-describe-score {
+            height: 30px;
+
+            .star {
+                width: 18px;
+            }
+
+            span {
+                font-size: 14px;
+                color: #e7380c;
+                display: block;
+                padding-left: 5px;
+            }
         }
 
         .item-main-bottom {
@@ -743,13 +810,77 @@ export default {
         }
     }
 
-    .products-item-line {
-        padding-left: 15px;
-        .item-line-content {
-            height: 1px;
-            background: #ddd;
-            width: 100%;
+    // 门店下 的服务项
+    .content-item-label {
+        border-top: 1px solid #ddd;
+        background: #f5f5f5;
+
+        .item-label-integral {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+
+            .label-integral-picture {
+                width: 75px;
+                height: 55px;
+
+                img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
         }
+
+        .label-integral-describe {
+            padding: 0px 10px;
+
+            .integral-describe-title {
+                font-size: 14px;
+                color: @black2;
+                padding-bottom: 5px;
+            }
+
+            .integral-describe-other {
+                font-size: 14px;
+                height: 24px;
+                line-height: 24px;
+
+                .describe-other-main {
+                    color: #e7380c;
+
+                    span {
+                        padding-left: 5px;
+                    }
+                }
+
+                .describe-other-lable {
+                    padding-left: 10px;
+                    color: @black3;
+                }
+            }
+        }
+
+        .label-integral-submit {
+            width: 70px;
+            height: 30px;
+            color: #e7380c;
+            border: 1px solid #e7380c;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 30px;
+        }
+    }
+
+    // 跳转
+    .content-item-operation {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        height: 40px;
+        font-size: 16px;
+        text-align: center;
+        line-height: 40px;
+        color: #ff9800;
+        background: #fff;
     }
 }
 
