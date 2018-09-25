@@ -38,29 +38,30 @@
     </div>
 
     <!-- 地图区域 -->
-    <div class="map-main" :style="'height: ' + (clientHeight - 56) + 'px;'">
+    <div class="map-main">
+        <div class="map-main-content" id="bMapContainer" :style="'height: ' + (clientHeight - 56) + 'px;'"></div>
     </div>
 
     <!-- 底部标签 -->
-    <div class="bottom-tag" v-if="isBottomTagShow">
-        <div class="bottom-tag-title">尊驾汇</div>
+    <div class="bottom-tag" v-if="selectedPointIndex !== null">
+        <div class="bottom-tag-title">{{tagInfor.name}}</div>
 
         <!-- 星星评价 -->
         <div class="bottom-tag-star flex-start-center">
             <div class="flex-start">
-                <svg v-for="(empty, key) in new Array(score)" :key="key" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg v-for="(empty, key) in new Array(tagInfor.score)" :key="key" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="#e7380c" d="M785.352203 933.397493c-4.074805 0-8.151657-0.970094-11.833513-3.007497l-261.311471-142.488225L250.942821 930.388972c-8.343015 4.559852-18.527982 3.8814-26.28669-1.599428-7.760754-5.5279-11.640108-14.987343-10.088776-24.347524l47.578622-285.365306L72.563154 429.470355c-6.594185-6.547113-8.971325-16.295128-6.110161-25.122167 2.814092-8.850575 10.379395-15.397688 19.546172-16.949021l285.512662-47.577598 118.529557-236.989529c4.172019-8.391111 12.803607-13.701047 22.165836-13.701047 9.359158 0 17.992793 5.309936 22.163789 13.701047l118.529557 236.989529 285.511639 47.577598c9.217942 1.551332 16.73208 8.051373 19.593244 16.949021 2.813069 8.875135 0.48607 18.575054-6.109138 25.122167L762.264369 619.077737l47.577598 285.365306c1.50119 9.360182-2.37714 18.819624-10.087753 24.347524C795.487028 931.797042 790.394033 933.397493 785.352203 933.397493z"></path>
                 </svg>
-                <svg v-for="(empty, reskey) in new Array(5 - score)" :key="reskey + 5" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg v-for="(empty, reskey) in new Array(5 - tagInfor.score)" :key="reskey + 5" width="16" height="16" t="1522358298526" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  p-id="2572" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="#dddddd" d="M785.352203 933.397493c-4.074805 0-8.151657-0.970094-11.833513-3.007497l-261.311471-142.488225L250.942821 930.388972c-8.343015 4.559852-18.527982 3.8814-26.28669-1.599428-7.760754-5.5279-11.640108-14.987343-10.088776-24.347524l47.578622-285.365306L72.563154 429.470355c-6.594185-6.547113-8.971325-16.295128-6.110161-25.122167 2.814092-8.850575 10.379395-15.397688 19.546172-16.949021l285.512662-47.577598 118.529557-236.989529c4.172019-8.391111 12.803607-13.701047 22.165836-13.701047 9.359158 0 17.992793 5.309936 22.163789 13.701047l118.529557 236.989529 285.511639 47.577598c9.217942 1.551332 16.73208 8.051373 19.593244 16.949021 2.813069 8.875135 0.48607 18.575054-6.109138 25.122167L762.264369 619.077737l47.577598 285.365306c1.50119 9.360182-2.37714 18.819624-10.087753 24.347524C795.487028 931.797042 790.394033 933.397493 785.352203 933.397493z"></path>
                 </svg>
             </div>
-            <span>{{score}}.0</span>
+            <span>{{tagInfor.score}}.0</span>
         </div>
         
         <div class="bottom-tag-label flex-start-center">
-            <div class="tag-label-left">距离100米</div>
-            <div>红盒子创意园A2栋101-104号</div>
+            <div class="tag-label-left">距离{{tagInfor.distance}}米</div>
+            <div>{{tagInfor.address}}</div>
         </div>
         
         <div class="bottom-tag-operation flex-start-center">
@@ -88,6 +89,8 @@
 
 <script>
 
+import { Indicator } from 'mint-ui';
+
 export default {
     name: 'list-map',
 
@@ -96,21 +99,194 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
 			clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            mapMount: null, // 百度地图实例 (复用)
+
+            longitude: 114.059560, // 目前所在位置 经度
+            latitude: 22.542860, // 目前所在位置 纬度
+
             /**
              * 搜索框输入
              */
             searchInput: '',
             
-            isBottomTagShow: true, // 是否显示 底部标签
-
             score: 4, // 门店评分
+
+            /**
+             * 门店选中的下标
+             * 未选中表示 null
+             */
+            selectedPointIndex: null,
+            tagInfor: { // 底部标签 门店信息
+                name: '', // 门店 标题
+                distance: '', // 门店距离
+                score: '', // 门店评分
+                address: '', // 门店 地址
+                longitude: null, // 门店所在位置 经度
+                latitude: null, // 门店所在位置 纬度
+            },
+
+            markerPointList: [ // 所有 门店坐标 列表
+                {
+                    index: 0, // 下标
+                    id: 1, // 门店 id
+                    name: '尊驾汇1', // 门店 地址
+                    distance: 100, // 门店距离
+                    score: 3, // 门店评分
+                    address: '红盒子创意园A2栋101-104号', // 门店 地址
+                    longitude: 114.02997366, // 门店所在位置 经度
+                    latitude: 22.54105355, // 门店所在位置 纬度
+                }, {
+                    index: 1, // 下标
+                    id: 1, // 门店 id
+                    name: '尊驾汇2', // 门店 地址
+                    distance: 100, // 门店距离
+                    score: 3, // 门店评分
+                    address: '红盒子创意园A2栋101-104号', // 门店 地址
+                    longitude: 114.02697366, // 门店所在位置 经度
+                    latitude: 22.54655355, // 门店所在位置 纬度
+                }
+            ],
         }
     },
 
     mounted: function () {
+        this.initBMap()
     },
 
-    methods: { 
+    methods: {
+        /**
+         * 初始化百度地图
+         */
+		initBMap: function initBMap() {
+            var _this = this;
+            this.mapMount = new BMap.Map("bMapContainer"); // 初始化百度地图
+
+            this.mapMount.centerAndZoom(new BMap.Point(114.059560, 22.542860), 15);// 初始化默认位置 地图大小
+            this.mapMount.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT})); // 添加地图组件控件
+
+            // 初始化自己所在位置信息
+            Indicator.open('加载位置信息...');
+            new BMap.Geolocation()
+            .getCurrentPosition(function (res) {
+                Indicator.close();
+
+                if( this.getStatus() == BMAP_STATUS_SUCCESS ){
+                    _this.mapMount.centerAndZoom(new BMap.Point(res.point.lng, res.point.lat), 15);// 初始化默认位置 地图大小
+
+                    // 设置当前位置
+                    _this.longitude = res.point.lng;
+                    _this.latitude = res.point.lat;
+
+                    // 渲染门店坐标
+                    _this.renderMarkerPoint(); 
+                } else {
+                    alert('获取位置信息失败, 原因:' + this.getStatus());
+                }   
+            });
+
+            this.mapMount.addEventListener("click", function (event) {  
+                // 判断是否点击的是覆盖物
+                if (!event.overlay) {
+                    _this.selectedPointIndex = null;
+                    _this.mapMount.clearOverlays(); // 清除所有遮罩物
+                    _this.renderMarkerPoint();
+                }
+            });
+        },
+    
+        /**
+         * 渲染商家列表
+         */
+        renderMarkerPoint: function renderMarkerPoint() {
+            var _this = this;
+
+            /**
+             * 地图标注(复用)
+             */
+            let markerPointString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/markerPoint.png?x-oss-process=image/resize,m_fill,w_35,h_35,limit_0/auto-orient,0/quality,q_100';
+            var markerPointPNG = new BMap.Icon(markerPointString, new BMap.Size(35, 35), {
+                /**
+                 * 指定定位位置。
+                 * 当标注显示在地图上时，其所指向的地理位置距离图标左上角各偏移17.5像素
+                 */
+                anchor: new BMap.Size(17.5, 17.5),
+            });
+            let markerPointSelectedString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/markerPointSelected.png?x-oss-process=image/resize,m_fill,w_40,h_50,limit_0/auto-orient,0/quality,q_100';
+            var markerPointSelectedPNG = new BMap.Icon(markerPointSelectedString, new BMap.Size(40, 50), {
+                anchor: new BMap.Size(20, 50),
+            });
+            
+            // 当前位置点
+            var myPoint = new BMap.Point(this.longitude, this.latitude);
+            var mk = new BMap.Marker(myPoint);
+            _this.mapMount.addOverlay(mk);
+            _this.mapMount.panTo(myPoint);
+
+            for (let i = 0; i < this.markerPointList.length; i++) {
+                // 门店所在位置
+                let shopLongitude = this.markerPointList[i].longitude // 经度
+                let shopLatitude = this.markerPointList[i].latitude // 纬度
+
+                // 图片
+                var myIcon = { icon: markerPointPNG };
+
+                // 判断当前门店是否被选中
+                if (this.selectedPointIndex === i) { // 选中的情况下
+                    var myIcon = { icon: markerPointSelectedPNG };
+                }
+
+                var marker = new BMap.Marker(
+                    new BMap.Point(shopLongitude, shopLatitude),
+                    myIcon
+                );
+                this.mapMount.addOverlay(marker);  
+
+                // 绑定事件
+                marker.addEventListener("click", function () {
+                    let myMarkerPoint = _this.markerPointList[i];
+
+                    _this.mapMount.clearOverlays(); // 清除所有遮罩物
+                    _this.selectedPointIndex = i; // 设置门店选中的下标
+                    // 设置 底部标签 门店信息
+                    _this.tagInfor = {
+                        name: myMarkerPoint.name, // 门店 标题
+                        distance: _this.toDistance(myMarkerPoint.latitude, myMarkerPoint.longitude), // 门店距离
+                        score: myMarkerPoint.score, // 门店评分
+                        address: myMarkerPoint.address, // 门店 地址
+                        longitude: myMarkerPoint.longitude, // 门店所在位置 经度
+                        latitude: myMarkerPoint.latitude, // 门店所在位置 纬度
+                    }
+                    _this.renderMarkerPoint();
+                });  
+            }
+        },
+
+        /**
+         * latitude and longitude to distance (单位: 米)
+         * @param {number} longitude (百度系)
+         * @param {number} latitude (百度系)
+         * @return {number} distance (单位: 米)
+         */
+        toDistance: function toDistance(latitude, longitude) {
+            var EARTH_RADIUS = 6378137.0; //单位M  
+            var PI = Math.PI;
+            function getRad(d) {
+                return d * PI / 180.0;
+            }
+
+            var radLat1 = getRad(latitude);
+            var radLat2 = getRad(this.latitude);
+
+            var a = radLat1 - radLat2;
+            var b = getRad(longitude) - getRad(this.longitude);
+
+            var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+            s = s * EARTH_RADIUS;
+            s = Math.round(s * 10000) / 10000.0;
+
+            return s;
+        },
+        
         /**
          * 返回到商品列表
          */
@@ -128,7 +304,15 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-@bottom-tag-z-index: 2;
+@searchBar-z-index: 2; // 搜索框
+@map-main-z-index: 2; // 地图
+@bottom-tag-z-index: 3; // 底部标签栏
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
 .map {
     width: 100%;
@@ -139,6 +323,9 @@ export default {
 
 // 搜索栏
 .searchBar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
     width: 100%;
     height: 55px;
     background: #fff;
@@ -192,9 +379,16 @@ export default {
     }
 }
 
+.map-main {
+    position: fixed;
+    width: 100%;;
+    top: 56px;
+    left: 0px;
+}
+
 // 底部标签
 .bottom-tag {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;
