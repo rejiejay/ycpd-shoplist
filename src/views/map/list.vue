@@ -203,12 +203,16 @@ export default {
             /**
              * 地图标注(复用)
              */
-            let markerPointString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/markerPoint.png?x-oss-process=image/resize,m_fill,w_35,h_35,limit_0/auto-orient,0/quality,q_100';
-            var markerPointPNG = new BMap.Icon(markerPointString, new BMap.Size(35, 35), {
+            let defaultMarkerString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/defaultMarker.png?x-oss-process=image/resize,m_fill,w_30,h_30,limit_0/auto-orient,0/quality,q_100';
+            var defaultMarkerPNG = new BMap.Icon(defaultMarkerString, new BMap.Size(30, 30), {
                 /**
                  * 指定定位位置。
                  * 当标注显示在地图上时，其所指向的地理位置距离图标左上角各偏移17.5像素
                  */
+                anchor: new BMap.Size(15, 15),
+            });
+            let markerPointString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/markerPoint.png?x-oss-process=image/resize,m_fill,w_35,h_35,limit_0/auto-orient,0/quality,q_100';
+            var markerPointPNG = new BMap.Icon(markerPointString, new BMap.Size(35, 35), {
                 anchor: new BMap.Size(17.5, 17.5),
             });
             let markerPointSelectedString = 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/shop-list/markerPointSelected.png?x-oss-process=image/resize,m_fill,w_40,h_50,limit_0/auto-orient,0/quality,q_100';
@@ -218,7 +222,7 @@ export default {
             
             // 当前位置点
             var myPoint = new BMap.Point(this.longitude, this.latitude);
-            var mk = new BMap.Marker(myPoint);
+            var mk = new BMap.Marker(myPoint, { icon: defaultMarkerPNG });
             _this.mapMount.addOverlay(mk);
             _this.mapMount.panTo(myPoint);
 
